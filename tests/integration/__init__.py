@@ -1,0 +1,1 @@
+# FinCore AI — Integration Tests

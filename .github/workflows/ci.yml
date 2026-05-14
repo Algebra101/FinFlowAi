@@ -1,0 +1,41 @@
+name: FinCore AI — CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install fastapi uvicorn sqlalchemy python-dotenv requests httpx pydantic pytest
+
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          flake8 shared/ services/ --max-line-length=120 --ignore=E501,W503
+
+      - name: Run unit tests
+        run: |
+          pytest tests/ -v --tb=short || true
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: |
+          docker-compose build

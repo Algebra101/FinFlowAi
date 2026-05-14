@@ -1,0 +1,72 @@
+# FinCore AI — Git Ignore
+
+# === SENSITIVE FILES ===
+.env
+*.db
+*.sqlite3
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# === Node.js ===
+node_modules/
+.next/
+out/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === ML / Data ===
+ml/datasets/raw/
+ml/datasets/processed/
+*.h5
+*.pkl
+*.pt
+*.onnx
+
+# === Docker ===
+*.log
+
+# === Archives ===
+*.zip
+*.tar.gz
+
+# === Generated files ===
+sme_training_data.csv
+pinn_3d_landscape.html
+
+# === Test / Debug scripts (keep locally, hide from repo) ===
+test_*.py
+test_*.html
+seed.py
+pull_mono_data.py
+zip_project.py
+generate_3d_pinn_chart.py
+doc_output.txt
+doc_output2.txt
+
+# === Old monolith (migrated to services/) ===
+backend/main.py
+backend/database.py
+backend/__pycache__/
+backend/api-gateway/
+
+# === PowerPoint / binary docs ===
+*.pptx
+
+# === Env zip ===
+finflow.env.zip

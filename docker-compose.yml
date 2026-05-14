@@ -1,0 +1,100 @@
+# FinCore AI — Docker Compose
+# Launches all microservices with a single command: docker-compose up
+#
+# Architecture:
+#   API Gateway (8000) → Payment (8001), Banking (8002), Fraud (8003),
+#                         Credit (8004), Forecasting (8005), Identity (8006)
+
+version: "3.9"
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      - payment-service
+      - banking-service
+      - fraud-service
+      - credit-service
+      - forecasting-service
+      - identity-service
+    networks:
+      - fincore-network
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: services/payment-service/Dockerfile
+    ports:
+      - "8001:8001"
+    env_file: .env
+    volumes:
+      - ./fincore.db:/app/fincore.db
+    networks:
+      - fincore-network
+
+  banking-service:
+    build:
+      context: .
+      dockerfile: services/banking-service/Dockerfile
+    ports:
+      - "8002:8002"
+    env_file: .env
+    volumes:
+      - ./fincore.db:/app/fincore.db
+    networks:
+      - fincore-network
+
+  fraud-service:
+    build:
+      context: .
+      dockerfile: services/fraud-service/Dockerfile
+    ports:
+      - "8003:8003"
+    env_file: .env
+    volumes:
+      - ./fincore.db:/app/fincore.db
+    networks:
+      - fincore-network
+
+  credit-service:
+    build:
+      context: .
+      dockerfile: services/credit-service/Dockerfile
+    ports:
+      - "8004:8004"
+    env_file: .env
+    volumes:
+      - ./fincore.db:/app/fincore.db
+    networks:
+      - fincore-network
+
+  forecasting-service:
+    build:
+      context: .
+      dockerfile: services/forecasting-service/Dockerfile
+    ports:
+      - "8005:8005"
+    env_file: .env
+    volumes:
+      - ./fincore.db:/app/fincore.db
+    networks:
+      - fincore-network
+
+  identity-service:
+    build:
+      context: .
+      dockerfile: services/identity-service/Dockerfile
+    ports:
+      - "8006:8006"
+    env_file: .env
+    networks:
+      - fincore-network
+
+networks:
+  fincore-network:
+    driver: bridge
