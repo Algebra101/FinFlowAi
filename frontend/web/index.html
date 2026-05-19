@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinCore AI — Intelligent Financial Infrastructure</title>
+    <!-- Suppress the 404 favicon error -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Forecasting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- ============================== -->
+    <!-- LOGIN SCREEN (IDENTITY)        -->
+    <!-- ============================== -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container glass-panel">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="ri-pulse-line"></i></div>
+                <h1>FinCore AI</h1>
+                <p>Secure Enterprise Login</p>
+            </div>
+            
+            <div id="email-step" class="login-step active">
+                <div class="input-group">
+                    <label>Business Email</label>
+                    <input type="email" id="login-email" placeholder="ideaa8841@gmail.com" value="ideaa8841@gmail.com">
+                </div>
+                <button id="btn-send-otp" class="btn primary-btn">Send Verification Code</button>
+            </div>
+
+            <div id="otp-step" class="login-step">
+                <p class="instruction">We've sent a 6-digit code to your email.</p>
+                <div class="input-group">
+                    <label>Verification Code</label>
+                    <input type="text" id="login-otp" placeholder="123456" maxlength="6" autocomplete="off">
+                </div>
+                <button id="btn-verify-otp" class="btn primary-btn">Verify Identity</button>
+                <button id="btn-back-email" class="btn text-btn">Use a different email</button>
+            </div>
+
+            <div id="login-message" class="message-box"></div>
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- MAIN DASHBOARD APP             -->
+    <!-- ============================== -->
+    <div id="app-screen" class="screen">
+        <aside class="sidebar glass-panel">
+            <div class="logo-area sidebar-logo">
+                <div class="logo-icon"><i class="ri-pulse-line"></i></div>
+                <h2>FinCore AI</h2>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-target="view-dashboard"><i class="ri-dashboard-line"></i> Command Center</button>
+                <button class="nav-btn" data-target="view-banking"><i class="ri-bank-line"></i> Connected Banks</button>
+                <button class="nav-btn" data-target="view-risk"><i class="ri-shield-check-line"></i> Risk & Credit AI</button>
+                <button class="nav-btn" data-target="view-forecast"><i class="ri-line-chart-line"></i> Cash Flow Forecast</button>
+            </nav>
+            <div class="user-profile">
+                <div class="avatar"><i class="ri-user-smile-line"></i></div>
+                <div class="user-info">
+                    <strong id="display-biz-name">Business Name</strong>
+                    <span id="display-email">email@example.com</span>
+                </div>
+                <button id="btn-logout" title="Log Out"><i class="ri-logout-box-r-line"></i></button>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <!-- DASHBOARD VIEW -->
+            <section id="view-dashboard" class="view-section active">
+                <header>
+                    <h2>Command Center</h2>
+                    <p>Real-time financial overview</p>
+                </header>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon blue"><i class="ri-wallet-3-line"></i></div>
+                        <div class="kpi-data">
+                            <label>Unified Balance (Squad + Linked)</label>
+                            <h3 id="dash-total-balance">₦0.00</h3>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-panel highlight">
+                        <div class="kpi-icon purple"><i class="ri-building-4-line"></i></div>
+                        <div class="kpi-data">
+                            <label>FinCore Virtual Account (NUBAN)</label>
+                            <h3 id="dash-virtual-account">Loading...</h3>
+                            <span class="sub-label">Provided by Squad / GTBank</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="split-layout">
+                    <div class="panel glass-panel">
+                        <h3>Recent Unified Transactions</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Narration</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dash-txns-body">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="panel glass-panel">
+                        <h3>PINN Risk Engine Status</h3>
+                        <div class="risk-widget">
+                            <div class="score-circle green" id="dash-cscore-circle">
+                                <span id="dash-cscore-tier">GREEN</span>
+                            </div>
+                            <div class="risk-details">
+                                <p><strong>Laws Monitored:</strong> Conservation, Velocity</p>
+                                <p id="dash-fraud-status">No anomalies detected.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BANKING VIEW -->
+            <section id="view-banking" class="view-section">
+                <header>
+                    <h2>Connected Banks</h2>
+                    <p>Aggregated accounts via Mono & FinCore</p>
+                    <button class="btn primary-btn small"><i class="ri-add-line"></i> Link New Bank</button>
+                </header>
+
+                <div class="bank-grid" id="bank-accounts-grid">
+                    <!-- Populated via JS -->
+                </div>
+            </section>
+
+            <!-- RISK & CREDIT VIEW -->
+            <section id="view-risk" class="view-section">
+                <header>
+                    <h2>Risk & Credit Intelligence</h2>
+                    <p>Powered by Physics-Informed Neural Networks (PINNs)</p>
+                </header>
+
+                <div class="split-layout">
+                    <div class="panel glass-panel">
+                        <h3>Behavioral Credit Score</h3>
+                        <div class="credit-display">
+                            <div class="big-score" id="risk-score">--</div>
+                            <div class="credit-meta">
+                                <h4>Risk Band: <span class="badge" id="risk-band">--</span></h4>
+                                <p>Eligible Loan Limit: <strong id="risk-limit">₦0.00</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel glass-panel">
+                        <h3>Fraud Flags (Conservation Law)</h3>
+                        <div class="fraud-list" id="fraud-flags-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FORECAST VIEW -->
+            <section id="view-forecast" class="view-section">
+                <header>
+                    <h2>Cash Flow Forecast</h2>
+                    <p>Delta PINNs 90-Day Liquidity Projection</p>
+                </header>
+
+                <div class="panel glass-panel chart-container">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
